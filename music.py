@@ -3,10 +3,20 @@ import itertools
 
 NOTES = ["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"]
 
+def to_flat(note):
+  if note not in NOTES:
+    return {"A#": "Bb",
+      "C#": "Db",
+      "D#": "Eb",
+      "F#": "Gb",
+      "G#": "Ab",
+    }[note]
+  return note
+
 def distance(note1, note2):
   """Returns the number of semitones between note1 and note2."""
-  a = NOTES.index(note1)
-  b = NOTES.index(note2)
+  a = NOTES.index(to_flat(note1))
+  b = NOTES.index(to_flat(note2))
   if b < a:
     b += len(NOTES)
   return b - a
@@ -18,6 +28,7 @@ def note_up(note, dist):
 def fingers_for_note(target):
   """Given a note, output (mandolin string, fret number) pairs that produce it when strummed.
   Output is sorted by fret number (descending)."""
+  target = to_flat(target)
   bases = ["G", "D", "A", "E"]
   output = []
   for i in range(16):
@@ -29,6 +40,7 @@ def fingers_for_note(target):
 
 def notes_in_chord(chord):
   """Given a chord like 'A' or 'Gbm', return the three notes in it."""
+  chord = to_flat(chord)
   targets = []
   if chord[-1] == "m":
     targets.append(chord[:-1])
@@ -42,6 +54,7 @@ def notes_in_chord(chord):
 
 def fingers_for_chord(chord, n):
   """$chord: the chord to find fingering for. $n: how many fingerings to return."""
+  chord = to_flat(chord)
   targets = set(notes_in_chord(chord))
   options = []
 
