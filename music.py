@@ -16,14 +16,16 @@ def note_up(note, dist):
   return NOTES[(NOTES.index(note) + dist) % len(NOTES)]
 
 def fingers_for_note(target):
-  """Given a note, output (mandolin string, fret number) pairs that produce it when strummed."""
+  """Given a note, output (mandolin string, fret number) pairs that produce it when strummed.
+  Output is sorted by fret number (descending)."""
   bases = ["G", "D", "A", "E"]
-  output = set()
+  output = []
   for i in range(16):
     for note in bases:
       if (NOTES.index(note) + i) % len(NOTES) == NOTES.index(target):
-        output.add((note, i))
-  return output
+        output.append((i, note))
+  output.sort()
+  return [(note, i) for i, note in output]
 
 def notes_in_chord(chord):
   """Given a chord like 'A' or 'Gbm', return the three notes in it."""
@@ -54,7 +56,7 @@ def fingers_for_chord(chord, n):
       options.append((g, d, a, e))
 
   # Sort ways to play that chord, return the top n
-  options.sort(key=lambda option: max(option) - min(option))
+  options.sort(key=lambda option: (4-len([1 for i in option if i == 0]), max(option) - min(option)))
   for option in options[:n]:
     ma, mi = max(option), min(option)
     yield (option, [note_up(n,i) for n,i in zip(["G", "D", "A", "E"], option)])
