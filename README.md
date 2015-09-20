@@ -1,4 +1,7 @@
-Example invocations:
+<h1>Mando</h1>
+Mando is a little command line tool for learning mandolin. It can help you find nice ways to play chords, figure out the fretting for a certain note, or find easy chord progressions. Eventually it'll do more. I hope.
+
+<h2>Usage</h2>
 
 ```
 $ python cli.py progressions "G C D"
