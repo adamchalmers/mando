@@ -1,4 +1,5 @@
 import music
+import chord_graph
 import click
 
 @click.group()
@@ -34,6 +35,15 @@ def chord(verbose, chord, n):
       click.echo ("%s plays %s" % (fingering, ", ".join(notes)))
     else:
       click.echo(" ".join([str(x) for x in fingering]))
+
+@cli.command()
+@click.option("--verbose", is_flag=True, help="Prints extra information.")
+@click.argument("chords")
+@click.argument("n", default=5)
+def progressions(verbose, chords, n):
+  """Outputs fingerings for the given chords which sound similar."""
+  for x in chord_graph.progressions(chords.split(" "), n):
+      click.echo("%s" % (x[1]))
 
 if __name__ == "__main__":
   cli()

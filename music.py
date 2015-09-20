@@ -52,8 +52,10 @@ def notes_in_chord(chord):
     targets.append(note_up(targets[0], 7))
   return targets
 
-def fingers_for_chord(chord, n):
-  """$chord: the chord to find fingering for. $n: how many fingerings to return."""
+def fingers_for_chord(chord, n=4):
+  """$chord: the chord to find fingering for. $n: how many fingerings to return.
+  Yields pairs of (fingering, notes that the fingering corresponds to)
+  """
   chord = to_flat(chord)
   targets = set(notes_in_chord(chord))
   options = []
@@ -72,6 +74,7 @@ def fingers_for_chord(chord, n):
   options.sort(key=lambda option: (4-len([1 for i in option if i == 0]), max(option) - min(option)))
   for option in options[:n]:
     ma, mi = max(option), min(option)
+    assert len(option) == 4
     yield (option, [note_up(n,i) for n,i in zip(["G", "D", "A", "E"], option)])
 
 def test_notes_in_chord():
