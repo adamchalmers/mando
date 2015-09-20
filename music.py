@@ -4,14 +4,7 @@ import itertools
 NOTES = ["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"]
 
 def to_flat(note):
-  if note not in NOTES:
-    return {"A#": "Bb",
-      "C#": "Db",
-      "D#": "Eb",
-      "F#": "Gb",
-      "G#": "Ab",
-    }[note]
-  return note
+  return note.replace("A#", "Bb").replace("C#", "Db").replace("D#", "Eb").replace("F#", "Gb").replace("G#", "Ab")
 
 def distance(note1, note2):
   """Returns the number of semitones between note1 and note2."""
